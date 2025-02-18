@@ -9,17 +9,11 @@ This is an [Flutter](https://flutter.dev) app using [flutter_inappwebview](https
 
 - didit `client_id` and `client_secret` to create a verification session
 
-## Runtime Permissions
-In addition to manifest/plist configurations, the app needs to request camera and microphone permissions at runtime using the permission_handler package:
 
-```dart
-await Permission.camera.request();      // Request camera permission
-await Permission.microphone.request();  // Request microphone permission
-```
+> **Note:** For more detailed configuration information, please check the [inappwebview documentation](https://inappwebview.dev/docs/intro#configure-android).
 
-These runtime permission requests ensure that the app explicitly asks for user consent before accessing the camera and microphone.
 
-## Android Configuration check [inappwebview documentation](https://inappwebview.dev/docs/intro#configure-android)
+## Android Configuration
 
 On Android, you need to add these permissions in your `AndroidManifest.xml` file to be able to use camera for taking images and videos:
 
@@ -57,6 +51,16 @@ On iOS, you need to add the following properties in your Info.plist file to be a
 <string>We need access to your microphone to record a video for verification</string>
 ```
 
+## Runtime Permissions
+In addition to manifest/plist configurations, the app needs to request camera and microphone permissions at runtime using the permission_handler package:
+
+```dart
+await Permission.camera.request();      // Request camera permission
+await Permission.microphone.request();  // Request microphone permission
+```
+
+These runtime permission requests ensure that the app explicitly asks for user consent before accessing the camera and microphone.
+
 
 ## Get started
 
@@ -71,4 +75,3 @@ On iOS, you need to add the following properties in your Info.plist file to be a
    ```bash
     flutter run
    ```
-# flutter-didit-verification-webview
