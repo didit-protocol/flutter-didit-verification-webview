@@ -36,17 +36,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
         _isLoading = true;
       });
 
-      final String clientAccessToken = await getClientAccessToken();
-
-      const String features = "OCR + FACE";
-      const String callbackUrl = "https://example.com/verification/callback";
+      const String workflowId = "your-workflow-id";
       const String vendorData = "your-vendor-data";
+      const String callbackUrl = "https://example.com/verification/callback";
 
       final sessionData = await createSession(
-        features: features,
-        callback: callbackUrl,
+        workflowId: workflowId,
         vendorData: vendorData,
-        accessToken: clientAccessToken,
+        callback: callbackUrl,
       );
 
       sessionUrl = sessionData["url"];
@@ -68,56 +65,27 @@ class _VerificationScreenState extends State<VerificationScreen> {
     }
   }
 
-  /// Obtains the client access token by authenticating with the Didit API.
-  Future<String> getClientAccessToken() async {
-    const String clientId = "YOUR_CLIENT_ID";
-    const String clientSecret = "YOUR_CLIENT_SECRET";
-
-    // Combine and Base64 encode the credentials.
-    final String encodedCredentials = base64Encode(
-      utf8.encode('$clientId:$clientSecret'),
-    );
-
-    final Uri authUri = Uri.parse('https://apx.didit.me/auth/v2/token/');
-
-    final response = await http.post(
-      authUri,
-      headers: {
-        'Authorization': 'Basic $encodedCredentials',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: 'grant_type=client_credentials',
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return data['access_token'];
-    } else {
-      throw Exception(
-        'Failed to obtain client access token: ${response.statusCode} ${response.body}',
-      );
-    }
-  }
-
   /// Creates a new verification session using the Didit API.
+  /// IMPORTANT: This function should be implemented on your backend/server
+  /// to avoid exposing your API key in the client application. This is just
+  /// an example implementation - move this logic to your secure backend.
   Future<Map<String, dynamic>> createSession({
-    required String features,
-    required String callback,
+    required String workflowId,
     required String vendorData,
-    required String accessToken,
+    required String callback,
   }) async {
     final Uri sessionUri = Uri.parse(
-      "https://verification.didit.me/v1/session/",
+      "https://verification.didit.me/v2/session/",
     );
     final headers = {
       "Content-Type": "application/json",
-      "Authorization": "Bearer $accessToken",
+      "X-Api-Key": "your-api-key",
     };
 
     final body = jsonEncode({
-      "callback": callback,
-      "features": features,
+      "workflow_id": workflowId,
       "vendor_data": vendorData,
+      "callback": callback,
     });
 
     final response = await http.post(sessionUri, headers: headers, body: body);

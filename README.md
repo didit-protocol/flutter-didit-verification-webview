@@ -6,8 +6,7 @@ This is an [Flutter](https://flutter.dev) app using [flutter_inappwebview](https
 
 - [flutter](https://flutter.dev)
 - you need to have a [Didit Application](https://docs.didit.me/identity-verification/quick-start#create-your-didit-account)
-
-- didit `client_id` and `client_secret` to create a verification session
+- didit `API Key` to create a verification session
 
 
 > **Note:** For more detailed configuration information, please check the [inappwebview documentation](https://inappwebview.dev/docs/intro#configure-android).
